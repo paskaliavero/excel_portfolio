@@ -1,6 +1,6 @@
-## Attendance Analysis
+# Attendance Analysis
 
-# Project Overview
+## Project Overview
 This is an excel-based analysis of an attendance dataset of a company. The goal is to clean and reporting the key point of attendance.
 
 ## Dataset
