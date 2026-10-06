@@ -2,15 +2,17 @@
 
 ## Project Overview
 
-This project is an Excel-based analysis of a company's employee attendance data.
+This project is an Excel-based analysis of employee attendance data.
 
 The goal is to process raw attendance records, calculate regular working hours and overtime, evaluate attendance consistency, and generate an employee-level attendance summary.
 
+The workbook is designed to be reusable for different months by updating the attendance database and monthly parameters.
+
 ## Dataset
 
-The dataset contains approximately 100,000 employee attendance records for August 2026.
+The dataset contains approximately 12,048 employee attendance records for Juli-August 2026.
 
-The raw attendance data is organized into separate sheets based on employee division. Each division sheet contains the same attendance data structure.
+The raw attendance data is organized into separate sheets based on employee division. Each division sheet follows the same attendance data structure.
 
 ### Raw Data Columns
 
@@ -29,20 +31,18 @@ The raw attendance data is organized into separate sheets based on employee divi
 
 ### Working Hour Rules
 
-* Regular working hours are **07:00–15:00**.
-* Working time after **15:00** is classified as overtime.
 * Sundays and holidays are treated as non-working days.
-* Attendance on Sundays or holidays is tracked separately.
+* Attendance on Sundays and holidays is tracked separately.
 
 ## Data Processing
 
-Several helper columns are created in the raw data to transform and prepare the attendance records for analysis.
+Several helper columns are used to transform and prepare the raw attendance data for analysis.
 
 ### Set Tanggal
 
 The original `Tanggal` column is stored as text rather than a proper Excel date.
 
-A helper column called `Set Tanggal` is used to convert the text value into an Excel date so that the data can be filtered and analyzed based on date ranges.
+A helper column called `Set Tanggal` converts the text value into an Excel date so that attendance records can be filtered and analyzed based on date ranges.
 
 ### Minggu/Libur
 
@@ -51,13 +51,13 @@ A helper column called `Minggu/Libur` identifies Sundays and holidays.
 * `0` → Regular working day
 * `1` → Sunday or holiday
 
-This flag is used to distinguish regular working days from non-working days when calculating attendance.
+This flag is used to distinguish regular working days from non-working days.
 
 ### Hitung Lembur
 
 The raw `Lembur` value is recorded in `HH:MM` format.
 
-Overtime is converted into calculated hours based on the following rule:
+Overtime is converted into calculated hours using the following rule:
 
 * **00–49 minutes:** keep the current hour
 * **50–59 minutes:** round up to the next hour
@@ -71,7 +71,7 @@ For example:
 | 04:49        |                   4 |
 | 04:50        |                   5 |
 
-A helper column called `Hitung Lembur` is used to apply this calculation before the overtime hours are aggregated.
+The `Hitung Lembur` helper column applies this rule before overtime hours are aggregated.
 
 ## Employee Summary
 
@@ -104,14 +104,30 @@ The calculation uses the processed `Hitung Lembur` values from the raw attendanc
 
 ### Kerajinan
 
-`Kerajinan 1` and `Kerajinan 2` are binary attendance indicators.
+`Kerajinan 1` and `Kerajinan 2` are binary attendance consistency indicators.
 
 * `1` → Employee attended every scheduled working day during the evaluation period
-* `0` → Employee missed at least one scheduled working day during the evaluation period
+* `0` → Employee missed at least one scheduled working day
 
-The calculation is based on the employee's actual attendance on regular working days and excludes Sundays and holidays.
+Sundays and holidays are excluded from the expected working-day calculation.
 
-The two indicators represent two separate attendance evaluation periods.
+## Monthly Parameters
+
+The workbook includes a parameter section for the monthly attendance period.
+
+The parameters include:
+
+| Parameter                   | Description                               |
+| --------------------------- | ----------------------------------------- |
+| Bulan                       | Month number being analyzed               |
+| Jumlah libur periode 1      | Number of additional holidays in Period 1 |
+| Jumlah libur periode 2      | Number of additional holidays in Period 2 |
+| Jumlah hari kerja periode 1 | Calculated working days for Period 1      |
+| Jumlah hari kerja periode 2 | Calculated working days for Period 2      |
+
+The expected number of working days is calculated dynamically based on the selected month and the number of holidays entered for each period.
+
+This allows the workbook to be reused for another month without changing the employee-level formulas.
 
 ## Analysis Performed
 
@@ -121,6 +137,7 @@ The two indicators represent two separate attendance evaluation periods.
 * Track attendance on Sundays and holidays
 * Aggregate attendance data across multiple employee divisions
 * Generate an employee-level attendance summary
+* Dynamically calculate expected working days based on monthly parameters
 
 ## Excel Concepts Used
 
@@ -136,6 +153,7 @@ The two indicators represent two separate attendance evaluation periods.
 * `INDIRECT`
 * Helper Columns
 * Multi-sheet Data Aggregation
+* Parameter-driven calculations
 
 ## Project Output
 
@@ -150,7 +168,9 @@ The final output is an Excel-based employee attendance report containing:
 
 ## Project Preview
 
-*Screenshots of the final Excel report will be added here.*
+### Employee Attendance Summary
+
+![Attendance Summary](images/attendance_analysis.jpeg)
 
 ## Key Questions
 
@@ -159,3 +179,14 @@ The final output is an Excel-based employee attendance report containing:
 * Which employees maintained full attendance during each evaluation period?
 * How many employees worked on Sundays or holidays?
 * How can attendance data from multiple divisions be consolidated into one employee-level report?
+* How can the attendance report be made reusable for different months?
+
+## Tools
+
+**Microsoft Excel**
+
+* Excel Formulas
+* Data Formatting
+* Data Cleaning
+* Multi-sheet Data Processing
+* Attendance Analysis
