@@ -170,7 +170,7 @@ The final output is an Excel-based employee attendance report containing:
 
 ### Employee Attendance Summary
 
-![Attendance Summary](images/attendance_analysis.jpeg)
+![Attendance Summary](attendance_analysis.jpeg)
 
 ## Key Questions
 
